@@ -76,7 +76,7 @@ jobs:
           script_stop: true
           script: |
             set -euo pipefail
-            export APP_DIR="${{ secrets.EC2_APP_DIR || '/opt/Microservices' }}"
+            export APP_DIR="${{ secrets.EC2_APP_DIR}}"
             export DEPLOY_BRANCH="${DEPLOY_BRANCH}"
             cd "${APP_DIR}"
             git remote -v

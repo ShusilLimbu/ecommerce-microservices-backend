@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-APP_DIR="${APP_DIR:-/opt/ecommerce-platform}"
+APP_DIR="${APP_DIR:-/microservice}"
 COMPOSE_FILE="${APP_DIR}/deploy/docker-compose.prod.yml"
 ENV_FILE="${APP_DIR}/.env.production"
 BRANCH="${DEPLOY_BRANCH:-main}"
