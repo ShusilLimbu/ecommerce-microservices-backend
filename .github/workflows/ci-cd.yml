@@ -78,6 +78,7 @@ jobs:
           script: |
             set -euo pipefail
             export APP_DIR="${{ secrets.EC2_APP_DIR}}"
+              APP_DIR="${APP_DIR:-/microservice}" 
             export DEPLOY_BRANCH="${DEPLOY_BRANCH}"
             export REPO_URL="${REPO_URL}"
 
