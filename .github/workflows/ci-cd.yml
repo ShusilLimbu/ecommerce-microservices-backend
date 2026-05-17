@@ -80,8 +80,17 @@ jobs:
             export APP_DIR="${{ secrets.EC2_APP_DIR}}"
             export DEPLOY_BRANCH="${DEPLOY_BRANCH}"
             export REPO_URL="${REPO_URL}"
+
+            if [ ! -d "${APP_DIR}/.git" ]; then
+            echo "==> Cloning repo"
+            git clone --branch "${DEPLOY_BRANCH}" "${REPO_URL}" "${APP_DIR}"
+            else
+            echo "==> Pulling latest"
             cd "${APP_DIR}"
-            [ -d .git ] && git remote -v || echo "No git repo yet — deploy script will clone"
+            git fetch origin "${DEPLOY_BRANCH}"
+            git reset --hard "origin/${DEPLOY_BRANCH}"
+            fi
+
             chmod +x deploy/scripts/deploy.sh
             ./deploy/scripts/deploy.sh
 

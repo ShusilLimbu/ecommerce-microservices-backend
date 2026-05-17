@@ -4,24 +4,24 @@ set -euo pipefail
 APP_DIR="${APP_DIR:-/microservice}"
 COMPOSE_FILE="${APP_DIR}/deploy/docker-compose.prod.yml"
 ENV_FILE="${APP_DIR}/.env.production"
-BRANCH="${DEPLOY_BRANCH:-main}"
-REPO_URL="${REPO_URL:?ERROR: REPO_URL is not set — add it to envs: in the workflow}" 
+# BRANCH="${DEPLOY_BRANCH:-main}"
+# REPO_URL="${REPO_URL:?ERROR: REPO_URL is not set — add it to envs: in the workflow}" 
 
-echo "==> Deploying branch: ${BRANCH}"
+# echo "==> Deploying branch: ${BRANCH}"
 
 
 
-if [ ! -d "${APP_DIR}/.git" ]; then
-  echo "==> No git repo found — cloning"
-  git clone --branch "${BRANCH}" "${REPO_URL}" "${APP_DIR}"
-else
-  echo "==> Repo exists — pulling branch: ${BRANCH}"
-  cd "${APP_DIR}"
-  git fetch origin "${BRANCH}"
-  git reset --hard "origin/${BRANCH}"
-fi
+# if [ ! -d "${APP_DIR}/.git" ]; then
+#   echo "==> No git repo found — cloning"
+#   git clone --branch "${BRANCH}" "${REPO_URL}" "${APP_DIR}"
+# else
+#   echo "==> Repo exists — pulling branch: ${BRANCH}"
+#   cd "${APP_DIR}"
+#   git fetch origin "${BRANCH}"
+#   git reset --hard "origin/${BRANCH}"
+# fi
 
-cd "${APP_DIR}"
+# cd "${APP_DIR}"
 # git fetch origin "${BRANCH}"
 # git reset --hard "origin/${BRANCH}"
 if [ ! -f "${ENV_FILE}" ]; then
