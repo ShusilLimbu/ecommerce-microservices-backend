@@ -83,7 +83,7 @@ jobs:
 
             if [ ! -d "${APP_DIR}/.git" ]; then
             echo "==> Cloning repo"
-            git clone --branch "${DEPLOY_BRANCH}" "${REPO_URL}" "${APP_DIR}"
+            git clone --branch "${DEPLOY_BRANCH}" "https://github.com/ShusilLimbu/ecommerce-microservices-backend.git" "${APP_DIR}"
             else
             echo "==> Pulling latest"
             cd "${APP_DIR}"
