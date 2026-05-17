@@ -5,10 +5,25 @@ APP_DIR="${APP_DIR:-/microservice}"
 COMPOSE_FILE="${APP_DIR}/deploy/docker-compose.prod.yml"
 ENV_FILE="${APP_DIR}/.env.production"
 BRANCH="${DEPLOY_BRANCH:-main}"
+REPO_URL="${REPO_URL:?ERROR: REPO_URL is not set — add it to envs: in the workflow}" 
 
 echo "==> Deploying branch: ${BRANCH}"
-cd "${APP_DIR}"
 
+
+
+if [ ! -d "${APP_DIR}/.git" ]; then
+  echo "==> No git repo found — cloning"
+  git clone --branch "${BRANCH}" "${REPO_URL}" "${APP_DIR}"
+else
+  echo "==> Repo exists — pulling branch: ${BRANCH}"
+  cd "${APP_DIR}"
+  git fetch origin "${BRANCH}"
+  git reset --hard "origin/${BRANCH}"
+fi
+
+cd "${APP_DIR}"
+# git fetch origin "${BRANCH}"
+# git reset --hard "origin/${BRANCH}"
 if [ ! -f "${ENV_FILE}" ]; then
   echo "ERROR: Missing ${ENV_FILE}"
   exit 1
@@ -18,9 +33,6 @@ set -a
 # shellcheck disable=SC1090
 source "${ENV_FILE}"
 set +a
-
-git fetch origin "${BRANCH}"
-git reset --hard "origin/${BRANCH}"
 
 echo "==> Docker compose up"
 docker compose -f "${COMPOSE_FILE}" --env-file "${ENV_FILE}" up -d --build --remove-orphans
